@@ -1,0 +1,94 @@
+{namespace sbt.jira.plugins.quicktasks}
+
+/**
+ * Render a quicktask row
+ * @param quicktask
+ */
+{template .quicktaskRow}
+<td class="jira-restfultable-icon quick-tasks-status">
+	<span class="quick-tasks-icon-quicktask"></span>
+</td>
+<td class="quick-tasks-completed">
+    <span class="jira-restfultable-editable" data-field-name="completed">
+    <span class="icon icon-edit-sml"></span>
+    	<input type="checkbox" {if $quicktask.completed}"checked=checked"{/if} disabled=disabled />
+    </span>
+</td>
+<td class="quick-tasks-description{if not $quicktask.description} jira-restfultable-editable-no-value{/if}">
+    <span class="jira-restfultable-editable" data-field-name="description">
+        <span class="icon icon-edit-sml"></span>
+        {if $quicktask.description}
+            {$quicktask.description}
+        {else}
+            <em>{getText('quicktasks.add.description')}</em>
+        {/if}
+    </span>
+</td>
+<td class="quick-tasks-operations">
+    <a id="quick-task-{$quicktask.id}-operations-trigger" class="quick-tasks-operations-trigger" href="#"><span class="quick-tasks-icon quick-tasks-icon-manage"></span><span class="quick-tasks-icon quick-tasks-icon-drop"><em>{getText('common.words.actions')}</em></span></a>
+    <div class="quick-tasks-operations-list aui-list">
+        <ul class="aui-list-section aui-first aui-last">
+        {if $quicktask.operations}
+            {foreach $operation in $quicktask.operations}
+                {if $operation.href}
+                    <li class="aui-list-item"><a class="aui-list-item-link {$operation.styleClass}" href="{$operation.href}">{$operation.label}</a></li>
+                {else}
+                    <li class="aui-list-item"><a class="aui-list-item-link {$operation.styleClass}" href="#">{$operation.label}</a></li>
+                {/if}
+
+            {/foreach}
+        {/if}
+        </ul>
+    </div>
+</td>
+<td class="quick-tasks-throbber"></td>
+{/template}
+
+
+/**
+ * @param issue
+ * @param values
+ * @param update
+  */
+{template .editQuicktaskRow}
+<td class="jira-restfultable-icon quick-task-status">
+	<span class="quick-tasks-icon-quicktask"></span>
+</td>
+<td class="quick-tasks-completed">
+    <input name="completed" type="checkbox" {$values.completed ? 'checked="checked"' : ''}"  />
+     {if not $update}
+        <input name="issue" type="hidden" value="{$issue}">
+    {/if}
+</td>
+<td class="quick-tasks-description">
+    <input name="description" type="text" class="text" value="{$values.description ? $values.description : ''}"  />
+</td>
+{/template}
+
+
+/**
+ * Renderer for delete version form
+ *
+ * @param relatedIssueCount
+ * @param versions
+ * @param projectId
+ * @param version
+ */
+{template .deleteForm}
+<h2 class="dialog-title">{getText('common.words.delete')} Quick Task </h2>
+<form class="aui" action="#" method="post">
+
+    <div class="form-body">
+            <div class="aui-message info">
+                <span class="aui-icon icon-info"></span>
+                {getText('quicktasks.delete.you.sure')}
+            </div>
+    </div>
+    <div class="buttons-container form-footer">
+        <div class="buttons">
+            <input id="submit" class="button" type="submit" value="{getText('common.words.delete')}" />
+            <a href="#" class="cancel">{getText('common.forms.cancel')}</a>
+        </div>
+    </div>
+</form>
+{/template}

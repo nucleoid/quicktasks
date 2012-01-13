@@ -1,0 +1,114 @@
+tr.quick-tasks-no-entires {
+    font-style: italic;
+}
+
+.jira-restfultable-allowhover tr:hover, .quick-tasks.jira-restfultable-active {
+    .quick-tasks-operations {
+        .quick-tasks-operations-trigger {
+            display: block;
+            .icon-drop {
+                background-image: url(../../../images/menu_indicator_for_dark_backgrounds.gif);
+            }
+        }
+    }
+}
+
+#quick-tasks-table {
+    thead th {
+        white-space: nowrap;
+    }
+    tbody td {
+        /*cursor: move;*/
+        &.quick-tasks-description input,
+        &.quick-tasks-completed input {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -ms-box-sizing: border-box;
+            -o-box-sizing: border-box;
+            box-sizing: border-box;
+            margin: 0;
+            width: 100%;
+        }
+
+        &.quick-tasks-completed {
+            width: 15x;
+        }
+
+        &.quick-tasks-status {width:16px;padding-right:0;}
+
+        &.quick-tasks-status .quick-tasks-icon {margin-top:2px;}
+
+    }
+}
+
+
+/* Entry */
+.quick-tasks {
+    .quick-tasks-completed {
+        .quick-tasks-icon {
+            float: left;
+            margin: 0 8px 0 -24px;
+        }
+    }
+    td:hover .jira-restfultable-editable {
+        opacity: 1;
+    }
+
+    /* Operations */
+    .quick-tasks-operations {
+        .quick-tasks-operations-list { display: none; }
+        .quick-tasks-operations-trigger {
+            display: none;
+            float: right;
+            padding: 2px;
+        }
+        .quick-tasks-operations-trigger:hover,
+        .quick-tasks-operations-trigger:active,
+        .quick-tasks-operations-trigger:focus {
+            background-color: #3c78b5;
+            color: #fff;
+            display: block;
+        }
+    }
+}
+
+.quick-tasks-icon-quicktask {
+	background: transparent url(images/quicktask.gif) no-repeat 0 0;
+    display: inline-block;
+    height: 16px;
+    overflow: hidden;
+    padding: 0;
+    text-indent: -999em;
+    vertical-align: top;
+    width: 16px;
+}
+
+.quick-tasks-icon {
+    background: transparent url(images/icon16-sprite.png) no-repeat 0 0;
+    display: inline-block;
+    height: 16px;
+    overflow: hidden;
+    padding: 0;
+    text-indent: -999em;
+    vertical-align: top;
+    width: 16px;
+}
+
+.quick-tasks-icon-notification {background-position:0 -112px;}
+.quick-tasks-icon-screen {background-position:0 -128px;}
+.quick-tasks-icon-screens {background-position:0 -144px;}
+.quick-tasks-icon-field {background-position:0 -160px;}
+.quick-tasks-icon-workflow {background-position:0 -176px;}
+.quick-tasks-icon-workflows {background-position:0 -192px;}
+.quick-tasks-icon-settings {background-position:0 -224px;}
+.quick-tasks-icon-manage {background-position:0 -240px;}
+.quick-tasks-icon-edit {background-position:0 -256px;}
+.quick-tasks-icon-viewworkflow {background-position:0 -272px;}
+.quick-tasks-icon-drop,
+.quick-tasks-icon-twixi {background-position:0 -288px;}
+.collapsed .project-config-icon-twixi {background-position:0 -304px;}
+
+.msie-7 #quick-tasks-add .quick-tasks-status {width:25px;}
+.msie-7 #quick-tasks-add .quick-tasks-description input,
+.msie-7 #quick-tasks-add .quick-tasks-name input { width: 92%; }
+.msie-7 #quick-tasks-add .quick-tasks-operations {width:140px;}
