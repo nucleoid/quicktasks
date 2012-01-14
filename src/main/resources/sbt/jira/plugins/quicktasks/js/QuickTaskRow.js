@@ -14,11 +14,11 @@ sbt.jira.plugins.quicktasks.QuickTaskRow = JIRA.RestfulTable.Row.extend({
             id = this.model.get("id"),
             $el = jQuery(this.el);
 
-        $el.attr("className", "quick-task"); // reset all classNames
+        $el.attr("className", "quick-tasks"); // reset all classNames
 
         $el.attr("id", "quick-task-" + id + "-row").attr("data-id", id);
 
-        $el.html(sbt.jira.plugins.quicktasks.quicktaskRow({
+        $el.html(sbt.jira.plugins.soy.quicktaskRowView({
             quicktask: this.model.toJSON()
         }));
 
@@ -35,6 +35,11 @@ sbt.jira.plugins.quicktasks.QuickTaskRow = JIRA.RestfulTable.Row.extend({
             instance.trigger("modeless");
         });
 
+        $el.find(".quick-tasks-completed input[checked]").each(function() {
+        	var descriptionTd = jQuery(this).parent().parent().next();
+        	jQuery(descriptionTd).css("text-decoration", "line-through");
+        });
+        
         this._assignDropdownEvents();
 
         return this;

@@ -1,13 +1,24 @@
 package sbt.jira.plugins.entities;
 
-import com.atlassian.jira.issue.Issue;
+import net.java.ao.Entity;
+import net.java.ao.Preload;
 
-public abstract interface QuickTask {
-	public abstract Long getSequence();
+@Preload
+public interface QuickTask extends Entity
+{
+	Long getIssueId();
+	
+	void setIssueId(Long issueId);
+	
+	Long getDisplaySequence();
+	
+	void setDisplaySequence(Long sequence);
 
-	public abstract Long getDisplaySequence();
-
-	public abstract Issue getParent();
-
-	public abstract Issue getQuickTask();
+	String getDescription();
+	
+	void setDescription(String description);
+	
+	boolean isCompleted();
+	
+	void setCompleted(boolean completed);
 }

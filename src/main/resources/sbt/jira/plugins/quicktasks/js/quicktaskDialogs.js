@@ -30,16 +30,14 @@ sbt.jira.plugins.quicktasks.DeleteForm = Backbone.View.extend({
     },
 
     /**
-     *
-     * Renders delete form. This differs from standard render methods, as it requires async request/s to the server.
-     * As a result when this method is calle the first argument is a function that is called when the content has been
-     * rendered.
-     *
-     * @param {function} ready - callback to declare content is ready
+     * Renders delete form.
      * @return {sbt.jira.plugins.quicktasks.DeleteForm}
      */
     render: function (ready) {
-        var instance = this;
+    	var instance = this;
+
+        instance.el.innerHTML = sbt.jira.plugins.soy.deleteFormView();
+        ready.call(instance, instance.el);
         return this;
     }
 });

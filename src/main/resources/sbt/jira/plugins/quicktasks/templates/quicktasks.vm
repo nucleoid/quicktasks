@@ -1,7 +1,7 @@
 <div id="quicktasks-panel" class="quicktasks-panel">
     <form id="quicktasks-add" class="aui" action="#">
     	<div class="hidden">
-			<input name="atl_token" type="hidden" value="${action.xsrfToken}">
+			<input name="atl_token" type="hidden" value="$atl_token">
 			<input name="issueKey" id="issueKey" type="hidden" value="$issueKey">
 			<input name="issueId" id="issueId" type="hidden" value="$issueId">
 	  	</div>
@@ -10,7 +10,7 @@
                 <tr>
                     <th class="jira-restfultable-order"><!-- order --></th>
                     <th><!-- quick-task icon --></th>
-                    <th><!-- completed checkbox --></th>
+                    <th>$i18n.getText('quicktasks.completed')</th>
                     <th>$i18n.getText('quicktasks.description')</th>
                     <th><!-- Operations --></th>
                     <th><!-- throbber --></th>

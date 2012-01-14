@@ -1,17 +1,17 @@
-{namespace sbt.jira.plugins.quicktasks}
+{namespace sbt.jira.plugins.soy}
 
 /**
  * Render a quicktask row
  * @param quicktask
  */
-{template .quicktaskRow}
+{template .quicktaskRowView}
 <td class="jira-restfultable-icon quick-tasks-status">
 	<span class="quick-tasks-icon-quicktask"></span>
 </td>
 <td class="quick-tasks-completed">
     <span class="jira-restfultable-editable" data-field-name="completed">
     <span class="icon icon-edit-sml"></span>
-    	<input type="checkbox" {if $quicktask.completed}"checked=checked"{/if} disabled=disabled />
+    	<input type="checkbox" {if $quicktask.completed == true}checked="checked"{/if} disabled=disabled />
     </span>
 </td>
 <td class="quick-tasks-description{if not $quicktask.description} jira-restfultable-editable-no-value{/if}">
@@ -46,18 +46,18 @@
 
 
 /**
- * @param issue
+ * @param issueId
  * @param values
  * @param update
   */
-{template .editQuicktaskRow}
+{template .editQuicktaskRowView}
 <td class="jira-restfultable-icon quick-task-status">
 	<span class="quick-tasks-icon-quicktask"></span>
 </td>
 <td class="quick-tasks-completed">
-    <input name="completed" type="checkbox" {$values.completed ? 'checked="checked"' : ''}"  />
+    <input name="completed" type="checkbox" {$values.completed ? 'checked="checked"' : ''}"  value="true"/>
      {if not $update}
-        <input name="issue" type="hidden" value="{$issue}">
+        <input name="issueId" type="hidden" value="{$issueId}">
     {/if}
 </td>
 <td class="quick-tasks-description">
@@ -68,13 +68,8 @@
 
 /**
  * Renderer for delete version form
- *
- * @param relatedIssueCount
- * @param versions
- * @param projectId
- * @param version
  */
-{template .deleteForm}
+{template .deleteFormView}
 <h2 class="dialog-title">{getText('common.words.delete')} Quick Task </h2>
 <form class="aui" action="#" method="post">
 

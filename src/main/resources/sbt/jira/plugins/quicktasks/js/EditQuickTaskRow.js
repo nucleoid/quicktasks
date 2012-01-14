@@ -28,11 +28,11 @@ sbt.jira.plugins.quicktasks.EditQuickTaskRow = JIRA.RestfulTable.EditRow.extend(
      */
     render: function (data) {
 
-        data.issue = jQuery("form#quicktasks-add input[name=issueKey]").val();
+        data.issueId = jQuery("form#quicktasks-add input[name=issueId]").val();
 
         this.el.className = "quick-tasks-add-fields";
-
-        this.$el.html(sbt.jira.plugins.quicktasks.editQuicktaskRow(data));
+        			
+        this.$el.html(sbt.jira.plugins.soy.editQuicktaskRowView(data));
 
         return this;
     }

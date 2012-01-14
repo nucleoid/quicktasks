@@ -8,7 +8,7 @@ jQuery(function () {
     }
 
     function getResourceURL () {
-        return JIRA.REST_BASE_URL + "/quicktasks/" + JIRA.IssueConfig.getKey() +"/quicktasks";
+        return JIRA.REST_BASE_URL + "/" + JIRA.IssueConfig.getId();
     }
 
     function getQuicktasks (callback) {
@@ -37,7 +37,7 @@ jQuery(function () {
             editable: true,
             reorderable: true,
             el: quicktasksTable,
-            url: contextPath + "/rest/quicktasks/" + JIRA.REST_VERSION + "/quicktask",
+            url: contextPath + "/rest/quicktasks/" + JIRA.REST_VERSION + "/",
             entries: quicktasks,
             model: JIRA.QuickTaskModel,
             noEntriesMsg: AJS.I18n.getText("quicktasks.none"),

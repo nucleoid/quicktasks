@@ -7,31 +7,22 @@
     <vendor name="${project.organization.name}" url="${project.organization.url}"/>
   </plugin-info>
 
+  <component-import key="token-generator" name="Xsrf Token Generator" interface="com.atlassian.jira.security.xsrf.XsrfTokenGenerator">
+      <description>Component to access Xsrf Token Generator functionality</description>
+  </component-import>
+  
   <web-panel name="Quicktasks Panel" i18n-name-key="quicktasks-panel.name" key="quicktasks-panel" location="atl.jira.view.issue.left.context" weight="600">
     <description key="quicktasks-panel.description">The Quicktasks Panel Plugin</description>
     <context-provider class="com.atlassian.jira.plugin.webfragment.contextproviders.MultiContextProvider">
         <param name="pluginKey">${project.groupId}.${project.artifactId}</param>
         <param name="ctxProvider-1">com.atlassian.jira.plugin.webfragment.contextproviders.I18nContextProvider</param>
-        <param name="ctxProvider-2">com.atlassian.jira.plugin.webfragment.contextproviders.BaseUrlContextProvider</param>
+        <param name="ctxProvider-2">com.atlassian.jira.plugin.webfragment.contextproviders.XsrfTokenContextProvider</param>
         <param name="ctxProvider-3">sbt.jira.plugins.QuickTasksContextProvider</param>
-        <param name="ctxProvider-4">com.atlassian.jira.plugin.webfragment.contextproviders.XsrfTokenContextProvider</param>
     </context-provider>
     <resource name="view" type="velocity" location="sbt/jira/plugins/quicktasks/templates/quicktasks.vm"/>
     <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition"/>
     <label key="quick-tasks.title" />
   </web-panel>
-  
-  <web-item name="Quicktask Add Link" key="quicktasks-add" i18n-name-key="quicktasks-panel.add.name" section="sbt.jira.plugins.quicktasks:quicktasks-panel/header" weight="1">
-  	<description>Link to quicktask add</description>
-    <label key="quick-tasks.addquicktask.label"/>
-    <tooltip key="quick-tasks.addquicktask.label"/>
-    <styleClass>icon issueaction-create-subtask icon-add16</styleClass>
-    <link linkId="qtqc_show">
-        /secure/CreateQuickTask!default.jspa?parentIssueId=${issue.id}
-    </link>
-    <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition"/>
- 	<condition class="com.atlassian.jira.plugin.webfragment.conditions.IsIssueUnresolvedCondition"/>
-  </web-item>
   
   <web-section key="quicktask-view-options" name="Quicktask View Options Section" location="sbt.jira.plugins.quicktasks:quicktasks-panel/drop" i18n-name-key="quicktasks-panel.view.options.section" weight="10"/>
   
@@ -42,7 +33,7 @@
   
   <resource type="i18n" name="i18n" location="atlassian-plugin"/>
   
-  <web-resource name="QuickTask web resources" key="qt-icon-resource">
+  <web-resource name="QuickTask web resources" key="qt-resource">
     <description>QuickTask js, image and css resources</description>
     <transformation extension="js">
     	<transformer key="jsI18n"/>
@@ -101,5 +92,32 @@
 	<resource type="download" name="quicktasks-init.js" location="sbt/jira/plugins/quicktasks/js/quicktasks-init.js">
 		<property key="content-type" value="text/javascript"/>
 	</resource>
+	<context>atl.general</context>
   </web-resource>
+  
+  <ao key="ao-module" name="Active Objects module">
+    <description>The module configuring the Active Objects service</description>
+    <entity>sbt.jira.plugins.entities.QuickTask</entity>
+  </ao>
+  
+  <component-import key="ao" name="Active Objects service" interface="com.atlassian.activeobjects.external.ActiveObjects">
+      <description>Component to access Active Objects functionality</description>
+  </component-import>
+  
+  <component key="tx-processor" name="Transactional Annotation Processor" class="com.atlassian.activeobjects.external.TransactionalAnnotationProcessor">
+  	<description>Processes @Transactional annotations</description>
+  </component>
+  
+  <component key="quick-task-manager" name="QuickTask Manager" class="sbt.jira.plugins.QuickTaskManagerImpl">
+  	<description>Contains CRUD QuickTask logic.</description>
+  	<interface>sbt.jira.plugins.QuickTaskManager</interface>
+  </component>
+  
+  <rest key="rest" path="/quicktasks" version="2">
+    <description>Provides REST resources for the QuickTask UI.</description>
+  </rest>
+  
+  <component-import key="user-manager" name="User Manager service" interface="com.atlassian.sal.api.user.UserManager">
+      <description>Component to access User Management functionality</description>
+  </component-import>
 </atlassian-plugin>
