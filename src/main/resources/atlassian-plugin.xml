@@ -17,20 +17,20 @@
         <param name="pluginKey">${project.groupId}.${project.artifactId}</param>
         <param name="ctxProvider-1">com.atlassian.jira.plugin.webfragment.contextproviders.I18nContextProvider</param>
         <param name="ctxProvider-2">com.atlassian.jira.plugin.webfragment.contextproviders.XsrfTokenContextProvider</param>
-        <param name="ctxProvider-3">sbt.jira.plugins.QuickTasksContextProvider</param>
+        <param name="ctxProvider-3">sbt.jira.plugins.quicktasks.QuickTasksContextProvider</param>
     </context-provider>
     <resource name="view" type="velocity" location="sbt/jira/plugins/quicktasks/templates/quicktasks.vm"/>
     <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition"/>
     <label key="quick-tasks.title" />
   </web-panel>
-  
-  <web-section key="quicktask-view-options" name="Quicktask View Options Section" location="sbt.jira.plugins.quicktasks:quicktasks-panel/drop" i18n-name-key="quicktasks-panel.view.options.section" weight="10"/>
-  
-  <simple-link-factory key="quicktask-view-options-factory" name="View Quicktask View Options Factory"
-                         section="sbt.jira.plugins.quicktasks:quicktasks-panel/drop/quick-view-options"
-                         i18n-name-key="quicktasks-panel.view.options.factory" weight="10" lazy="false"
-                         class="sbt.jira.plugins.QuicktaskViewOptionsFactory"/>
-  
+
+  <web-section key="subtask-view-options" name="Subtask View Options Section" location="sbt.jira.plugins.quicktasks:quicktasks-panel/drop" i18n-name-key="webfragments.view.issue.subtask.view.options.section" weight="10"/>
+
+  <simple-link-factory key="subtask-view-options-factory" name="View SubTask View Options Factory"
+  	section="sbt.jira.plugins.quicktasks:quicktasks-panel/drop/subtask-view-options"
+    i18n-name-key="webfragments.view.issue.subtask.view.options.factory" weight="10"
+    lazy="false" class="sbt.jira.plugins.quicktasks.QuicktaskViewOptionsFactory"/>
+   
   <resource type="i18n" name="i18n" location="atlassian-plugin"/>
   
   <web-resource name="QuickTask web resources" key="qt-resource">
@@ -97,7 +97,7 @@
   
   <ao key="ao-module" name="Active Objects module">
     <description>The module configuring the Active Objects service</description>
-    <entity>sbt.jira.plugins.entities.QuickTask</entity>
+    <entity>sbt.jira.plugins.quicktasks.entities.QuickTask</entity>
   </ao>
   
   <component-import key="ao" name="Active Objects service" interface="com.atlassian.activeobjects.external.ActiveObjects">
@@ -108,9 +108,9 @@
   	<description>Processes @Transactional annotations</description>
   </component>
   
-  <component key="quick-task-manager" name="QuickTask Manager" class="sbt.jira.plugins.QuickTaskManagerImpl">
+  <component key="quick-task-manager" name="QuickTask Manager" class="sbt.jira.plugins.quicktasks.QuickTaskManagerImpl">
   	<description>Contains CRUD QuickTask logic.</description>
-  	<interface>sbt.jira.plugins.QuickTaskManager</interface>
+  	<interface>sbt.jira.plugins.quicktasks.QuickTaskManager</interface>
   </component>
   
   <rest key="rest" path="/quicktasks" version="2">

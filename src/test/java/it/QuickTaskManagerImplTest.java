@@ -20,8 +20,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import sbt.jira.plugins.QuickTaskManagerImpl;
-import sbt.jira.plugins.entities.QuickTask;
+import sbt.jira.plugins.quicktasks.QuickTaskManagerImpl;
+import sbt.jira.plugins.quicktasks.entities.QuickTask;
 
 import com.atlassian.activeobjects.external.ActiveObjects;
 import com.atlassian.activeobjects.test.TestActiveObjects;
@@ -186,6 +186,20 @@ public class QuickTaskManagerImplTest
 	}
 
 	@Test
+	public void testFindByIssueIdIncomplete() {       
+        assertEquals(3, ao.find(QuickTask.class).length);
+        quicktaskManager.add(ISSUE_ID, DISPLAY_SEQUENCE2 + 2, "blah", false);
+        ao.flushAll();
+        
+        final List<QuickTask> quicktasks = quicktaskManager.findByIssueIdIncomplete(ISSUE_ID);
+        assertEquals(2, quicktasks.size());
+        assertEquals(ISSUE_ID, quicktasks.get(0).getIssueId());
+        assertEquals(ISSUE_ID, quicktasks.get(1).getIssueId());
+        assertEquals(COMPLETED, quicktasks.get(0).isCompleted());
+        assertEquals(COMPLETED, quicktasks.get(1).isCompleted());
+	}
+	
+	@Test
 	public void testCountByIssueId() {
         assertEquals(3, ao.find(QuickTask.class).length);
 
@@ -219,39 +233,66 @@ public class QuickTaskManagerImplTest
 	}
 	
 	@Test
-	public void testMove(){
-		assertEquals(3, ao.find(QuickTask.class).length);
-		
+	public void testMoveFirst(){
+		quicktaskManager.add(ISSUE_ID, DISPLAY_SEQUENCE2 + 1, "blah", false);
+		assertEquals(4, ao.find(QuickTask.class).length);
 		final List<QuickTask> preQuicktasks = quicktaskManager.findByIssueId(ISSUE_ID);
 		final int firstId = preQuicktasks.get(0).getID();
+		final int secondId = preQuicktasks.get(1).getID();
+		final int thirdId = preQuicktasks.get(2).getID();
+		ao.flushAll();
 		//move the first task to last (by Issue)
-        final QuickTask moved = quicktaskManager.move(preQuicktasks.get(0), preQuicktasks.get(1).getID());
+        final QuickTask moved = quicktaskManager.move(preQuicktasks.get(2), preQuicktasks.get(0).getID());
         ao.flushAll();
         
+        Long one = 1L;
+        Long newSequ = DISPLAY_SEQUENCE2 + 1L;
         final List<QuickTask> quicktasks = quicktaskManager.findByIssueId(ISSUE_ID);
-        assertEquals(2, quicktasks.size());
-        assertNotSame(firstId, quicktasks.get(0).getID());
-        assertEquals(firstId, quicktasks.get(1).getID());
-        assertSame(0L, quicktasks.get(0).getDisplaySequence());
-        assertSame(DISPLAY_SEQUENCE, quicktasks.get(1).getDisplaySequence());
+        assertEquals(3, quicktasks.size());
+        assertEquals(thirdId, quicktasks.get(0).getID());
+        assertEquals(one, quicktasks.get(0).getDisplaySequence());
+        assertEquals(newSequ, quicktasks.get(2).getDisplaySequence());
 	}
 	
 	@Test
-	public void testMoveFirst(){
+	public void testMoveMiddle(){
+		quicktaskManager.add(ISSUE_ID, DISPLAY_SEQUENCE2 + 1, "blah", false);
+		assertEquals(4, ao.find(QuickTask.class).length);
+		final List<QuickTask> preQuicktasks = quicktaskManager.findByIssueId(ISSUE_ID);
+		final int firstId = preQuicktasks.get(0).getID();
+		final int secondId = preQuicktasks.get(1).getID();
+		final int thirdId = preQuicktasks.get(2).getID();
+		ao.flushAll();
+		//move the first task to last (by Issue)
+        final QuickTask moved = quicktaskManager.move(preQuicktasks.get(0), preQuicktasks.get(2).getID());
+        ao.flushAll();
+        
+        Long one = 1L;
+        Long newSequ = DISPLAY_SEQUENCE2 + 1L;
+        final List<QuickTask> quicktasks = quicktaskManager.findByIssueId(ISSUE_ID);
+        assertEquals(3, quicktasks.size());
+        assertEquals(firstId, quicktasks.get(1).getID());
+        assertEquals(one, quicktasks.get(0).getDisplaySequence());
+        assertEquals(newSequ, quicktasks.get(2).getDisplaySequence());
+	}
+	
+	@Test
+	public void testMoveLast(){
 		assertEquals(3, ao.find(QuickTask.class).length);
 		
 		final List<QuickTask> preQuicktasks = quicktaskManager.findByIssueId(ISSUE_ID);
 		final int firstId = preQuicktasks.get(0).getID();
+		ao.flushAll();
 		//move the first task to last (by Issue)
-        final QuickTask moved = quicktaskManager.move(preQuicktasks.get(1), null);
+        final QuickTask moved = quicktaskManager.move(preQuicktasks.get(0), null);
         ao.flushAll();
-        
+        Long one = 1L;
         final List<QuickTask> quicktasks = quicktaskManager.findByIssueId(ISSUE_ID);
         assertEquals(2, quicktasks.size());
         assertNotSame(firstId, quicktasks.get(0).getID());
         assertEquals(firstId, quicktasks.get(1).getID());
-        assertSame(0L, quicktasks.get(0).getDisplaySequence());
-        assertSame(DISPLAY_SEQUENCE, quicktasks.get(1).getDisplaySequence());
+        assertEquals(DISPLAY_SEQUENCE, quicktasks.get(0).getDisplaySequence());
+        assertEquals(DISPLAY_SEQUENCE2, quicktasks.get(1).getDisplaySequence());
 	}
 	
 	public static class QuickTaskManagerImplTestDatabaseUpdater implements DatabaseUpdater
