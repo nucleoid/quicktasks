@@ -40,6 +40,27 @@ sbt.jira.plugins.quicktasks.QuickTaskRow = JIRA.RestfulTable.Row.extend({
         	jQuery(descriptionTd).css("text-decoration", "line-through");
         });
         
+        $el.find(".quick-tasks-completed input").click(function() {
+        	var tr = jQuery(this).parent().parent().parent();
+        	var data = {
+    			completed: jQuery(this).is(':checked'), 
+    			expand: "operations",
+    			id: jQuery(tr).attr("data-id")
+        	};
+
+            instance.model.save(data, {
+                success: function () {
+                	jQuery(tr).find("td.quick-tasks-completed input").each(function() {
+                    	var descriptionTd = jQuery(this).parent().parent().next();
+                    	if(jQuery(this).is(':checked'))
+                    		jQuery(descriptionTd).css("text-decoration", "line-through");
+                    	else
+                    		jQuery(descriptionTd).css("text-decoration", "none");
+                    });
+                }
+            });
+        });
+        
         this._assignDropdownEvents();
 
         return this;

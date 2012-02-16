@@ -7,16 +7,6 @@
 				<input name="issueId" id="issueId" type="hidden" value="$issueId">
 		  	</div>
 	        <table id="quicktasks-table" class="aui">
-	            <thead>
-	                <tr>
-	                    <th class="jira-restfultable-order"><!-- order --></th>
-	                    <th><!-- quick-task icon --></th>
-	                    <th>$i18n.getText('quicktasks.completed')</th>
-	                    <th>$i18n.getText('quicktasks.description')</th>
-	                    <th><!-- Operations --></th>
-	                    <th><!-- throbber --></th>
-	                </tr>
-	            </thead>
 	            <tbody></tbody>
 	        </table>
 	        <div class="jira-restfultable-init">

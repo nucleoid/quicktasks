@@ -117,6 +117,12 @@
       <version>2.1</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>servlet-api</artifactId>
+        <version>2.3</version>
+        <scope>provided</scope>
+    </dependency>
   </dependencies>
   <properties>
     <amps.version>3.7.2</amps.version>

@@ -150,9 +150,12 @@ JIRA.RestfulTable = Backbone.View.extend({
                                             : JIRA.SmartAjax.buildSimpleErrorContent(smartAjaxResult);
                                         jQuery(document).trigger(JIRA.SERVER_ERROR_EVENT, errorContent);
                                     }
-                                    jQuery(document).find("td.quick-tasks-completed input[checked]").each(function() {
+                                    jQuery(document).find("td.quick-tasks-completed input").each(function() {
                                     	var descriptionTd = jQuery(this).parent().parent().next();
-                                    	jQuery(descriptionTd).css("text-decoration", "line-through");
+                                    	if(jQuery(this).is(':checked'))
+                                    		jQuery(descriptionTd).css("text-decoration", "line-through");
+                                    	else
+                                    		jQuery(descriptionTd).css("text-decoration", "none");
                                     });
                                 }
                             });

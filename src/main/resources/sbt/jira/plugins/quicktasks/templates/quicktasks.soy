@@ -5,13 +5,9 @@
  * @param quicktask
  */
 {template .quicktaskRowView}
-<td class="jira-restfultable-icon quick-tasks-status">
-	<span class="quick-tasks-icon-quicktask"></span>
-</td>
 <td class="quick-tasks-completed">
-    <span class="jira-restfultable-editable" data-field-name="completed">
-    <span class="icon icon-edit-sml"></span>
-    	<input type="checkbox" {if $quicktask.completed == true}checked="checked"{/if} disabled=disabled />
+    <span data-field-name="completed">
+    	<input name="completed" id="completed" type="checkbox" {if $quicktask.completed == true}checked="checked"{/if}  value="true"/>
     </span>
 </td>
 <td class="quick-tasks-description{if not $quicktask.description} jira-restfultable-editable-no-value{/if}">
@@ -51,9 +47,6 @@
  * @param update
   */
 {template .editQuicktaskRowView}
-<td class="jira-restfultable-icon quick-task-status">
-	<span class="quick-tasks-icon-quicktask"></span>
-</td>
 <td class="quick-tasks-completed">
     <input name="completed" id="completed" type="checkbox" {if $values.completed == true}checked="checked"{/if}  value="true"/>
      {if not $update}

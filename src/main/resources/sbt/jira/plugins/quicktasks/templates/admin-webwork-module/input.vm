@@ -1,0 +1,67 @@
+<html>
+  <head>
+    <title>$i18n.getText("quicktasks.admin.label")</title>
+    <meta name="decorator" content="atl.admin" />
+    <meta name="admin.active.section" content="admin_plugins_menu/quicktasks_admin_section"/>
+    <meta name="admin.active.tab" content="quicktasks-admin-link"/>
+    <meta name="application-base-url" content="$action.baseUrl">
+  </head>
+  <body>
+    <form action="QuickTaskAdminWebworkModuleAction.jspa" class="aui" id="quicktasks-admin" name="quicktasks-admin" method="post">
+        <div class="form-body">
+			<div class="hidden">
+				<input name="atl_token" type="hidden" value="${action.xsrfToken}">
+				<input name="updated" id="updated" type="hidden" value="${action.updated}">
+		  	</div>
+		  	<fieldset>
+		  		#if($action.hasErrorMessages)
+                	#foreach ($error in $action.errorMessages)
+                		<div class="aui-message error"><span class="aui-icon icon-error"></span>$error</div>
+				    #end
+    			#end
+				
+				<h3 class="formtitle">$i18n.getText("quicktasks.admin.choose.applicable.issue.types")</h3>
+				<div style="margin-bottom:10px">$i18n.getText("quicktasks.admin.choose.applicable.issue.types.instruction")</div>
+				<div class="field-group">
+					<label for="issuetypes" style="width:275px">$i18n.getText("quicktasks.admin.issuetypes.label")</label>
+					<select size="5" name="issueTypes" id="issueTypes" multiple="">
+						<option class="selectall" $action.issueTypeSelected("-1") value="-1">Any issue type</option>
+						#foreach ($issueType in $action.allIssueTypes)
+							<option class="imagebacked" $action.issueTypeSelected($issueType.id) style="background-image: url(/jira${issueType.iconUrl}?atl_token=${action.xsrfToken});" title="${issueType.description}" value="${issueType.id}"> ${issueType.name} </option>
+						#end
+					</select>
+					<div class="fieldDescription">$i18n.getText("quicktasks.admin.issuetypes.footer")</div>
+				</div>
+				
+				<h3 class="formtitle">$i18n.getText("quicktasks.admin.schemecontext.chooseapplicable")</h3>
+				<div style="margin-bottom:10px">$i18n.getText("quicktasks.admin.schemecontext.chooseapplicable.instruction")</div>
+				<div class="field-group">
+				    <input type="radio" id="global_true" value="true" name="global" id="global" $action.globalChecked("true") class="radio">
+				    <label for="global_true" style="width:275px">
+				        $i18n.getText("quicktasks.admin.projects.global")
+				    </label>
+			    </div>
+			    <div class="field-group">
+				    <input type="radio" id="global_false" value="false" name="global" id="global" $action.globalChecked("false") class="radio">
+				    <label for="global_false" style="width:275px">
+				        $i18n.getText("quicktasks.admin.projects.selected")
+				    </label>
+			    </div>
+			    <div class="field-group">
+					<label for="projects" style="width:275px">$i18n.getText("quicktasks.admin.projects.label")</label>
+					<select size="5" onclick="document.getElementById('global_false').click();" name="projects" id="projects" multiple="">
+						#foreach ($project in $action.allProjects)
+							<option $action.projectSelected($project) title="" value="${project.id}">${project.name}</option>
+						#end
+					</select>    
+				</div>
+		  	</fieldset>
+		</div>
+        <div class="buttons-container form-footer">
+            <div class="buttons">
+                <input type="submit" value="$i18n.getText("quicktasks.admin.save.label")" class="button">
+            </div>
+        </div>
+    </form>
+  </body>
+</html>

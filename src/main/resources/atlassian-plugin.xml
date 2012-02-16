@@ -21,13 +21,14 @@
     </context-provider>
     <resource name="view" type="velocity" location="sbt/jira/plugins/quicktasks/templates/quicktasks.vm"/>
     <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition"/>
+    <condition class="sbt.jira.plugins.quicktasks.conditions.HasQuickTasksPermission"/>
     <label key="quick-tasks.title" />
   </web-panel>
 
-  <web-section key="subtask-view-options" name="Subtask View Options Section" location="sbt.jira.plugins.quicktasks:quicktasks-panel/drop" i18n-name-key="webfragments.view.issue.subtask.view.options.section" weight="10"/>
+  <web-section key="quicktasks-view-options" name="Quicktasks View Options Section" location="sbt.jira.plugins.quicktasks:quicktasks-panel/drop" i18n-name-key="webfragments.view.issue.subtask.view.options.section" weight="10"/>
 
-  <simple-link-factory key="subtask-view-options-factory" name="View SubTask View Options Factory"
-  	section="sbt.jira.plugins.quicktasks:quicktasks-panel/drop/subtask-view-options"
+  <simple-link-factory key="quicktasks-view-options-factory" name="View SubTask View Options Factory"
+  	section="sbt.jira.plugins.quicktasks:quicktasks-panel/drop/quicktasks-view-options"
     i18n-name-key="webfragments.view.issue.subtask.view.options.factory" weight="10"
     lazy="false" class="sbt.jira.plugins.quicktasks.QuicktaskViewOptionsFactory"/>
    
@@ -120,4 +121,47 @@
   <component-import key="user-manager" name="User Manager service" interface="com.atlassian.sal.api.user.UserManager">
       <description>Component to access User Management functionality</description>
   </component-import>
+  
+  <!-- Admin plugin components -->
+  <component-import key="project-manager" name="Project Manager service" interface="com.atlassian.jira.project.ProjectManager">
+      <description>Component to access Project Management functionality</description>
+  </component-import>
+  <component-import key="issue-type-manager" name="IssueType Manager service" interface="com.atlassian.jira.config.IssueTypeManager">
+      <description>Component to access Issue Type Management functionality</description>
+  </component-import>
+  <webwork1 key="quicktasks-admin-webwork-module" name="Quicktasks Admin Webwork Module" >
+    <description>Admin Webwork module for processing quicktasks admin forms</description>
+    <actions>
+      <action name="sbt.jira.plugins.quicktasks.webwork.QuickTaskAdminWebworkModuleAction" alias="QuickTaskAdminWebworkModuleAction">
+        <view name="input">/sbt/jira/plugins/quicktasks/templates/admin-webwork-module/input.vm</view>
+        <view name="success">/sbt/jira/plugins/quicktasks/templates/admin-webwork-module/input.vm</view>
+        <view name="error">/sbt/jira/plugins/quicktasks/templates/admin-webwork-module/input.vm</view>
+        <view name="login">/login.jsp?permissionViolation=true&amp;os_destination=%2Fsecure%2FQuickTaskAdminWebworkModuleAction%21default%2Ejspa</view> 
+      </action>
+    </actions>
+  </webwork1>
+  <web-resource name="Admin js resource" key="admin-web-resource">
+    <transformation extension="js">
+        <transformer key="jsI18n"/>
+    </transformation>
+    <description>Admin js resource</description>
+    <resource type="download" name="admin.js" location="sbt/jira/plugins/quicktasks/js/admin.js">
+      <param name="content-type" value="text/javascript"/>
+    </resource> 
+    <dependency>com.atlassian.auiplugin:ajs</dependency>
+    <context>atl.admin</context>
+  </web-resource>
+  <component-import key="pluginSettingsFactory" name="Plugin Settings Factory">
+  	<description>Component to store Quicktasks admin configuration settings</description>
+  	<interface>com.atlassian.sal.api.pluginsettings.PluginSettingsFactory</interface>
+  </component-import>
+  <web-section key="quicktasks_admin_section" location="admin_plugins_menu" name="Quicktasks Admin Menu Section Label">
+    <description>Label for the quicktasks admin plugin menu section</description>
+    <label key="quicktasks.admin.section.name" />
+  </web-section>
+  <web-item key="jira-menu-item" name="Quicktasks Admin" section="admin_plugins_menu/quicktasks_admin_section" weight="1" application="jira">
+    <description>Link to quicktasks-admin page</description>
+    <label key="quicktasks.admin.label" />
+    <link linkId="quicktasks-admin-link">/secure/QuickTaskAdminWebworkModuleAction!default.jspa</link>
+  </web-item>
 </atlassian-plugin>
