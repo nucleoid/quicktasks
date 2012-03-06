@@ -6,7 +6,7 @@
 				<input name="issueKey" id="issueKey" type="hidden" value="$issueKey">
 				<input name="issueId" id="issueId" type="hidden" value="$issueId">
 		  	</div>
-	        <table id="quicktasks-table" class="aui">
+	        <table id="quicktasks-table" class="aui" style="margin:0">
 	            <tbody></tbody>
 	        </table>
 	        <div class="jira-restfultable-init">

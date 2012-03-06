@@ -126,7 +126,7 @@
   </dependencies>
   <properties>
     <amps.version>3.7.2</amps.version>
-    <jira.version>5.0-rc2</jira.version>
+    <jira.version>5.0</jira.version>
     <ao.version>0.19.1.1</ao.version>
   </properties>
 </project>

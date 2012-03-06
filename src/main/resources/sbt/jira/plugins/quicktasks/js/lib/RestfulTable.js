@@ -81,7 +81,7 @@ JIRA.RestfulTable = Backbone.View.extend({
                     });
 
                 // ... and appends it as the first row
-                jQuery('<tbody class="jira-restfultable-create">').append(this._createRow.el).insertBefore(this.$tbody);
+                jQuery('<tbody class="jira-restfultable-create">').append(this._createRow.el).insertAfter(this.$tbody);
 
                 this._applyFocusCoordinator(this._createRow);
 

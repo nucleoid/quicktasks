@@ -48,9 +48,12 @@
   */
 {template .editQuicktaskRowView}
 <td class="quick-tasks-completed">
-    <input name="completed" id="completed" type="checkbox" {if $values.completed == true}checked="checked"{/if}  value="true"/>
+	{if $update}
+    	<input name="completed" id="completed" type="checkbox" {if $values.completed == true}checked="checked"{/if}  value="true"/>
+    {/if}
      {if not $update}
         <input name="issueId" type="hidden" value="{$issueId}">
+        <input name="completed" type="hidden" value="false">
     {/if}
 </td>
 <td class="quick-tasks-description">

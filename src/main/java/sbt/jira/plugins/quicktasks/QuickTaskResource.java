@@ -41,7 +41,7 @@ public class QuickTaskResource {
     public Response get(@PathParam("id") String id, @Context HttpServletRequest request)
     {
         String username = userManager.getRemoteUsername(request);
-        if (username != null && !userManager.isSystemAdmin(username))
+        if (username == null)
             return Response.status(Status.UNAUTHORIZED).build();
         
         final Long issueId = Long.parseLong(id);
@@ -64,7 +64,7 @@ public class QuickTaskResource {
     		@Context HttpServletRequest request)
     {
         String username = userManager.getRemoteUsername(request);
-        if (username != null && !userManager.isSystemAdmin(username))
+        if (username == null)
             return Response.status(Status.UNAUTHORIZED).build();
         
         if("incomplete".equals(call)){
@@ -94,7 +94,7 @@ public class QuickTaskResource {
     public Response post(final QuickTask quicktask, @Context HttpServletRequest request)
     {
         String username = userManager.getRemoteUsername(request);
-        if (username != null && !userManager.isSystemAdmin(username))
+        if (username == null)
             return Response.status(Status.UNAUTHORIZED).build();
 
         sbt.jira.plugins.quicktasks.entities.QuickTask taskCreated = 
@@ -110,7 +110,7 @@ public class QuickTaskResource {
     public Response post(@PathParam("taskId") int taskId, String position, @Context HttpServletRequest request)
     {
         String username = userManager.getRemoteUsername(request);
-        if (username != null && !userManager.isSystemAdmin(username))
+        if (username == null)
             return Response.status(Status.UNAUTHORIZED).build();
 
         sbt.jira.plugins.quicktasks.entities.QuickTask currentTask = quickTaskManager.findById(taskId);
@@ -130,7 +130,7 @@ public class QuickTaskResource {
     public Response put(final QuickTask quicktask, @Context HttpServletRequest request)
     {
         String username = userManager.getRemoteUsername(request);
-        if (username != null && !userManager.isSystemAdmin(username))
+        if (username == null)
             return Response.status(Status.UNAUTHORIZED).build();
 
         sbt.jira.plugins.quicktasks.entities.QuickTask taskUpdated = 
@@ -146,7 +146,7 @@ public class QuickTaskResource {
     public Response delete(@PathParam("id") String id, @Context HttpServletRequest request)
     {
         String username = userManager.getRemoteUsername(request);
-        if (username != null && !userManager.isSystemAdmin(username))
+        if (username == null)
             return Response.status(Status.UNAUTHORIZED).build();
 
         final int taskId = Integer.parseInt(id);
